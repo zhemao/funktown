@@ -43,8 +43,8 @@ remove(key)
 Return a new ImmutableDict with the item at that key removed
 
 ## Coming Soon
-Iteration
-Conversion back to Python builtins
-Vector concatenation
-Dict extension
+ * Iteration
+ * Conversion back to Python builtins
+ * Vector concatenation
+ * Dict extension
 
