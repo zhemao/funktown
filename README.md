@@ -33,3 +33,11 @@ get(key)
 
 Like in Python's builtin dict, this will act like item access, except 
 returning None instead of raising a KeyError.
+
+## Coming Soon
+Item removal 
+Iteration
+Conversion back to Python builtins
+Vector concatenation
+Dict extension
+
