@@ -18,11 +18,6 @@ class ImmutableVector:
 	def conj(self, value):
 		return self.assoc(self._length, value)
 
-	def get(self, index):
-		try:
-			return self[index]
-		except IndexError: return None
-
 	def __len__(self):
 		return self._length
 
