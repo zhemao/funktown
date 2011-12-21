@@ -41,6 +41,11 @@ class LookupTree:
 		newtree.root = self._assoc_down(self.root, newnode, 0)
 		return newtree
 
+	def remove(self, index):
+		newtree = LookupTree()
+		newtree.root = self._remove_down(self.root, index, 0)
+		return newtree
+
 	def _assoc_down(self, node, newnode, level):
 		ind = (newnode.index >> level * 5) & 31
 		copynode = LookupTreeNode()
@@ -62,7 +67,29 @@ class LookupTree:
 			branch.children[nind] = newnode
 		return copynode
 
+	def _remove_down(self, node, index, level):
+		ind = (index >> level * 5) & 31
+		
+		if node.children[ind] == None:
+			return node
+		
+		copynode = LookupTreeNode()
 
+		for i,child in enumerate(node.children):
+			if i != ind:
+				copynode.children[i] = child
+		
+		child = node.children[ind]
+
+		if child.index == index:
+			copynode.children[ind] = None
+		elif child.index == -1:
+			copynode.children[ind] = self._remove_down(child, index, level+1)
+		else:
+			return node
+
+		return copynode
+		
 	def insert(self, index, value):
 		'''Insert a node in-place. It is highly suggested that you do not
 		use this method. Use assoc instead'''

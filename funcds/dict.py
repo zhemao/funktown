@@ -22,6 +22,12 @@ class ImmutableDict:
 		copydict._length = self._length + 1
 		return copydict
 
+	def remove(self, key):
+		copydict = ImmutableDict()
+		copydict.tree = self.tree.remove(hashfunc(key))
+		copydict._length = self._length - 1
+		return copydict
+
 	def get(self, key):
 		try:
 			return self[key]

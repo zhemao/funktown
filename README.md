@@ -20,6 +20,10 @@ conj(value)
 Returns a new vector with the value appended to the back. Roughly equivalent 
 to vec.assoc(len(vec), value)
 
+pop()
+
+Returns a new vector with the final item removed.
+
 ### ImmutableDict
 
 The constructor can take a dict and/or keyword arguments. Item access follows
@@ -34,8 +38,11 @@ get(key)
 Like in Python's builtin dict, this will act like item access, except 
 returning None instead of raising a KeyError.
 
+remove(key)
+
+Return a new ImmutableDict with the item at that key removed
+
 ## Coming Soon
-Item removal 
 Iteration
 Conversion back to Python builtins
 Vector concatenation

@@ -15,6 +15,14 @@ class ImmutableVector:
 			newvec._length = self._length
 		return newvec
 
+	def pop(self):
+		if self._length == 0:
+			raise IndexError()
+		newvec = ImmutableVector()
+		newvec.tree = self.tree.remove(self._length-1)
+		newvec._length = self._length-1
+		return newvec
+
 	def conj(self, value):
 		return self.assoc(self._length, value)
 
