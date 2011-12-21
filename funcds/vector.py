@@ -1,10 +1,10 @@
 from .lookuptree import LookupTree 
 
 class ImmutableVector:
-	def __init__(self, initvalues=None, *args):
+	def __init__(self, initvalues=None):
 		if not initvalues: initvalues = []
-		self.tree = LookupTree(initvalues + args)
-		self._length = len(initvalues) + len(args)
+		self.tree = LookupTree(initvalues)
+		self._length = len(initvalues)
 
 	def assoc(self, index, value):
 		newvec = ImmutableVector()
@@ -18,9 +18,15 @@ class ImmutableVector:
 	def conj(self, value):
 		return self.assoc(self._length, value)
 
+	def get(self, index):
+		try:
+			return self[index]
+		except IndexError: return None
+
 	def __len__(self):
 		return self._length
 
 	def __getitem__(self, index):
-		return self.tree.get(index)
+		if index >= self._length: raise IndexError()
+		return self.tree[index]
 

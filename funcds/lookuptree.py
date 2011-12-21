@@ -15,17 +15,25 @@ class LookupTree:
 			for i,val in enumerate(initvalues):
 				self.insert(i, val)
 
+
 	def get(self, index):
+		try:
+			return self[index]
+		except KeyError: return None
+
+	def __getitem__(self, index):
 		'''Find the value of the node with the given index'''
 		node = self.root
 		level = 0
-		while node.index == -1:
+		while node and node.index == -1:
 			i = (index >> level * 5) & 31
 			node = node.children[i]
 			level+=1
+		if node == None:
+			raise KeyError(index)
 		if node.index == index:
 			return node.value
-		return None
+		raise KeyError(index)
 
 	def assoc(self, index, value):
 		newnode = LookupTreeNode(index, value)
