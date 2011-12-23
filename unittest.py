@@ -8,6 +8,8 @@ def treetest():
 	t2 = t1.assoc(36, 36)
 	assert t1.get(36) == None
 	assert t2.get(36) == 36
+	t3 = t2.assoc(36, 35)
+	assert t3.get(36) == 35
 
 def vectortest():
 	v1 = funcds.ImmutableVector([0,1,2])
