@@ -99,14 +99,14 @@ class LookupTree:
 		while True:
 			ind = (newnode.index >> level * 5) & 31 
 			level+=1
-			if node.children[ind] == None:
+			child = node.children[ind]
+			if child == None or child.index == newnode.index:
 				node.children[ind] = newnode
 				break
-			elif node.children[ind].index == -1:
+			elif child.index == -1:
 				node = node.children[ind]
 			else:
 				branch = LookupTreeNode()
-				child = node.children[ind]
 				nind = (newnode.index >> level * 5) & 31
 				cind = (child.index >> level * 5) & 31
 				node.children[ind] = branch
