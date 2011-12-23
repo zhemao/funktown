@@ -15,6 +15,14 @@ class ImmutableVector:
 			newvec._length = self._length
 		return newvec
 
+	def concat(self, tailvec):
+		newvec = ImmutableVector()
+		vallist = [(i + self._length, tailvec[i]) \
+				for i in range(0, tailvec._length)]
+		newvec.tree = self.tree.multi_assoc(vallist)
+		newvec._length = self._length + tailvec._length
+		return newvec
+
 	def pop(self):
 		if self._length == 0:
 			raise IndexError()
