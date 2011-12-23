@@ -38,58 +38,14 @@ class LookupTree:
 	def assoc(self, index, value):
 		newnode = LookupTreeNode(index, value)
 		newtree = LookupTree()
-		newtree.root = self._assoc_down(self.root, newnode, 0)
+		newtree.root = _assoc_down(self.root, newnode, 0)
 		return newtree
 
 	def remove(self, index):
 		newtree = LookupTree()
-		newtree.root = self._remove_down(self.root, index, 0)
+		newtree.root = _remove_down(self.root, index, 0)
 		return newtree
 
-	def _assoc_down(self, node, newnode, level):
-		ind = (newnode.index >> level * 5) & 31
-		copynode = LookupTreeNode()
-		for i,child in enumerate(node.children):
-			if i != ind:
-				copynode.children[i] = child
-		child = node.children[ind]
-		if child == None or child.index == newnode.index:
-			copynode.children[ind] = newnode
-		elif child.index == -1:
-			copynode.children[ind] = self._assoc_down(child, newnode, level+1)
-		else:
-			branch = LookupTreeNode()
-			copynode.children[ind] = branch
-			level+=1
-			cind = (child.index >> level * 5) & 31
-			nind = (newnode.index >> level * 5) & 31
-			branch.children[cind] = child
-			branch.children[nind] = newnode
-		return copynode
-
-	def _remove_down(self, node, index, level):
-		ind = (index >> level * 5) & 31
-		
-		if node.children[ind] == None:
-			return node
-		
-		copynode = LookupTreeNode()
-
-		for i,child in enumerate(node.children):
-			if i != ind:
-				copynode.children[i] = child
-		
-		child = node.children[ind]
-
-		if child.index == index:
-			copynode.children[ind] = None
-		elif child.index == -1:
-			copynode.children[ind] = self._remove_down(child, index, level+1)
-		else:
-			return node
-
-		return copynode
-		
 	def insert(self, index, value):
 		'''Insert a node in-place. It is highly suggested that you do not
 		use this method. Use assoc instead'''
@@ -116,6 +72,78 @@ class LookupTree:
 	
 	def __iter__(self):
 		return iter_node(self.root)
+
+def _assoc_down(node, newnode, level):
+	ind = (newnode.index >> level * 5) & 31
+	copynode = LookupTreeNode()
+	for i,child in enumerate(node.children):
+		if i != ind:
+			copynode.children[i] = child
+	child = node.children[ind]
+	if child == None or child.index == newnode.index:
+		copynode.children[ind] = newnode
+	elif child.index == -1:
+		copynode.children[ind] = _assoc_down(child, newnode, level+1)
+	else:
+		branch = LookupTreeNode()
+		copynode.children[ind] = branch
+		level+=1
+		cind = (child.index >> level * 5) & 31
+		nind = (newnode.index >> level * 5) & 31
+		branch.children[cind] = child
+		branch.children[nind] = newnode
+	return copynode
+
+def _multi_assoc_down(node, nndict, level):
+	indices = set([(index >> level * 5) & 31 for index in nndict])
+	copynode = LookupTreeNode()
+	for i,child in enumerate(node.children):
+		if i not in indices:
+			copynode.children[i] = child
+
+	for ind in indices:
+		subnndict = dict([(i,nndict[i]) for i in nndict \
+						if ind == (i >> level * 5) & 31])
+		child = node.children[ind]
+		if child == None or child.index in subnndict:
+			if len(subnndict) == 1:
+				copynode.children[ind] = subnndict[child.index]
+			else:
+				branch = LookupTreeNode()
+				copynode.children[ind] = \ 
+					_multi_assoc_down(branch, subnndict, level+1)
+		elif child.index == -1:
+			copynode.children[ind] = \ 
+				_multi_assoc_down(node, subnndict, level+1)
+		else:
+			branch = LookupTreeNode()
+			copynode.children[ind] = \ 
+				_multi_assoc_down(branch, subnndict, level+1)
+	
+	return copynode
+
+def _remove_down(node, index, level):
+	ind = (index >> level * 5) & 31
+	
+	if node.children[ind] == None:
+		return node
+		
+	copynode = LookupTreeNode()
+
+	for i,child in enumerate(node.children):
+		if i != ind:
+			copynode.children[i] = child
+		
+	child = node.children[ind]
+
+	if child.index == index:
+		copynode.children[ind] = None
+	elif child.index == -1:
+		copynode.children[ind] = _remove_down(child, index, level+1)
+	else:
+		return node
+
+	return copynode
 
 def iter_node(node):
 	if node.index == -1:
