@@ -42,7 +42,4 @@ remove(key)
 
 Return a new ImmutableDict with the item at that key removed
 
-## Coming Soon
- * Vector concatenation
- * Dict extension
 
