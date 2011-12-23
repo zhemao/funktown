@@ -43,9 +43,9 @@ class LookupTree:
 
 	def multi_assoc(self, values):
 		if isinstance(values, dict):
-			nndict = [(i, LookupTreeNode(i, values[i])) for i in values]
+			nndict = dict([(i, LookupTreeNode(i, values[i])) for i in values])
 		else:
-			nndict = [(i, LookupTreeNode(i, val)) for (i,val) in values]
+			nndict = dict([(i, LookupTreeNode(i, val)) for (i,val) in values])
 		newtree = LookupTree()
 		newtree.root = _multi_assoc_down(self.root, nndict, 0)
 		return newtree
@@ -116,7 +116,7 @@ def _multi_assoc_down(node, nndict, level):
 		child = node.children[ind]
 		if child == None or child.index in subnndict:
 			if len(subnndict) == 1:
-				copynode.children[ind] = subnndict[child.index]
+				copynode.children[ind] = subnndict.values()[0]
 			else:
 				branch = LookupTreeNode()
 				copynode.children[ind] = \

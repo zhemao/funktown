@@ -10,6 +10,9 @@ def treetest():
 	assert t2.get(36) == 36
 	t3 = t2.assoc(36, 35)
 	assert t3.get(36) == 35
+	t4 = t2.multi_assoc([(15,15), (14,14)])
+	assert t4.get(15) == 15
+	assert t4.get(14) == 14
 
 def vectortest():
 	v1 = funcds.ImmutableVector([0,1,2])
