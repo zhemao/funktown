@@ -53,7 +53,7 @@ class LookupTree:
 			if i != ind:
 				copynode.children[i] = child
 		child = node.children[ind]
-		if child == None:
+		if child == None or child.index == newnode.index:
 			copynode.children[ind] = newnode
 		elif child.index == -1:
 			copynode.children[ind] = self._assoc_down(child, newnode, level+1)
