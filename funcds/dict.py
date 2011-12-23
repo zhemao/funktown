@@ -12,13 +12,13 @@ class ImmutableDict:
 	def __init__(self, initdict=None, **kwargs):
 		if initdict == None: initdict = {}
 		initdict.update(kwargs)
-		hashlist = [(hashfunc(key), initdict[key]) for key in initdict]
+		hashlist = [(hashfunc(key), (key, initdict[key])) for key in initdict]
 		self.tree = LookupTree(dict(hashlist))
 		self._length = len(initdict)
 
 	def assoc(self, key, value):
 		copydict = ImmutableDict()
-		copydict.tree = self.tree.assoc(hashfunc(key), value)
+		copydict.tree = self.tree.assoc(hashfunc(key), (key, value))
 		copydict._length = self._length + 1
 		return copydict
 
@@ -32,11 +32,14 @@ class ImmutableDict:
 		try:
 			return self[key]
 		except KeyError: return None
-
+	
 	def __len__(self):
 		return self._length
 
 	def __getitem__(self, key):
 		try:
-			return self.tree[hashfunc(key)]
+			return self.tree[hashfunc(key)][1]
 		except KeyError: raise KeyError(key)
+
+	def __iter__(self):
+		return self.tree.__iter__()

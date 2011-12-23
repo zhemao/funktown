@@ -26,6 +26,10 @@ class ImmutableVector:
 	def conj(self, value):
 		return self.assoc(self._length, value)
 
+	def __iter__(self):
+		for i in range(0, self._length):
+			yield self[i]
+
 	def __len__(self):
 		return self._length
 

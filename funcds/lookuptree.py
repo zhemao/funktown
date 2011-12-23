@@ -113,5 +113,18 @@ class LookupTree:
 				branch.children[nind] = newnode
 				branch.children[cind] = child
 				break
+	
+	def __iter__(self):
+		return iter_node(self.root)
+
+def iter_node(node):
+	if node.index == -1:
+		for child in node.children:
+			if child == None: continue
+			if child.index == -1:
+				for value in iter_node(child):
+					yield value
+			else: yield child.value
+
 				
 

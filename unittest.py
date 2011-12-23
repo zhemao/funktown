@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import funcds
 
 def treetest():
@@ -15,6 +17,7 @@ def vectortest():
 	assert len(v2) == 4
 	assert len(v3) == 2
 	assert v2[3] == 3
+	assert list(v2) == [0, 1, 2, 3]
 
 def dicttest():
 	d1 = funcds.ImmutableDict(hello="world")
@@ -24,6 +27,7 @@ def dicttest():
 	assert d2["goodbye"] == "moon"
 	assert d1.get("goodbye") == None
 	assert d3.get("hello") == None
+	assert dict(d2) == {"hello":"world", "goodbye":"moon"}
 
 if __name__ == "__main__":
 	treetest()
