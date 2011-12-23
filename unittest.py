@@ -35,9 +35,14 @@ def dicttest():
 	assert d1.get("goodbye") == None
 	assert d3.get("hello") == None
 	assert dict(d2) == {"hello":"world", "goodbye":"moon"}
+	d4 = d2.extend(funcds.ImmutableDict({"a":"b", "c":"d"}))
+	assert len(d4) == 4
+	assert d4['a'] == 'b'
+	assert d4['c'] == 'd'
 
 if __name__ == "__main__":
 	treetest()
 	vectortest()
 	dicttest()
+
 
