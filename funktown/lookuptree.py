@@ -115,7 +115,8 @@ def _multi_assoc_down(node, nndict, level):
 		child = node.children[ind]
 		if child == None or child.index in subnndict:
 			if len(subnndict) == 1:
-				copynode.children[ind] = subnndict.values()[0]
+				values = [val for val in subnndict.values()]
+				copynode.children[ind] = values[0]
 			else:
 				branch = LookupTreeNode()
 				copynode.children[ind] = \
