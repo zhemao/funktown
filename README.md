@@ -16,7 +16,8 @@ Package is also available from PyPI. In that case, use
 
 ArchLinux users can install from the AUR
 
-	yaourt -S python2-funktown
+	yaourt -S python2-funktown 
+	yaourt -S python-funktown # python 3 version
 
 ## API
 
@@ -59,3 +60,8 @@ Return a new ImmutableDict with the item at that key removed
 #### update(otherdict)
 
 Return a new immutable dict updated with the records in otherdict.
+
+## Compatiblity 
+
+Funktown has been tested with Python 2.7.2 and 3.2.2 on a Linux system.
+It should be compatible with all python versions greater than 2.6.
