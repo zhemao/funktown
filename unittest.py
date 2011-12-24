@@ -40,6 +40,8 @@ def dicttest():
 	assert len(d4) == 4
 	assert d4['a'] == 'b'
 	assert d4['c'] == 'd'
+	d5 = d1.update(hola="mundo")
+	assert d5['hola'] == 'mundo'
 
 if __name__ == "__main__":
 	treetest()
