@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 
-import funcds
+import funktown
 
 def treetest():
-	t1 = funcds.LookupTree({0:0, 32:32, 4:4})
+	t1 = funktown.LookupTree({0:0, 32:32, 4:4})
 	assert t1.get(0) == 0
 	t2 = t1.assoc(36, 36)
 	assert t1.get(36) == None
@@ -15,7 +15,7 @@ def treetest():
 	assert t4.get(14) == 14
 
 def vectortest():
-	v1 = funcds.ImmutableVector([0,1,2])
+	v1 = funktown.ImmutableVector([0,1,2])
 	v2 = v1.conj(3)
 	v3 = v1.pop()
 	assert len(v1) == 3
@@ -28,7 +28,7 @@ def vectortest():
 	assert list(v4[0:4]) == [0,1,2,0]
 
 def dicttest():
-	d1 = funcds.ImmutableDict(hello="world")
+	d1 = funktown.ImmutableDict(hello="world")
 	d2 = d1.assoc("goodbye", "moon")
 	d3 = d2.remove("hello")
 	assert d1["hello"] == "world"
@@ -36,7 +36,7 @@ def dicttest():
 	assert d1.get("goodbye") == None
 	assert d3.get("hello") == None
 	assert dict(d2) == {"hello":"world", "goodbye":"moon"}
-	d4 = d2.extend(funcds.ImmutableDict({"a":"b", "c":"d"}))
+	d4 = d2.extend(funktown.ImmutableDict({"a":"b", "c":"d"}))
 	assert len(d4) == 4
 	assert d4['a'] == 'b'
 	assert d4['c'] == 'd'
