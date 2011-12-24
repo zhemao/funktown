@@ -1,4 +1,5 @@
 from .lookuptree import LookupTree 
+from itertools import islice
 
 class ImmutableVector:
 	def __init__(self, initvalues=None):
@@ -34,6 +35,15 @@ class ImmutableVector:
 	def conj(self, value):
 		return self.assoc(self._length, value)
 
+	def get(self, index):
+		if index >= self._length: 
+			raise IndexError
+		return self.tree[index]
+
+	def slice(self, slc):
+		lst = [val for val in islice(self, slc.start, slc.stop, slc.step)]
+		return ImmutableVector(lst)
+
 	def __add__(self, other):
 		return self.concat(other)
 
@@ -45,6 +55,7 @@ class ImmutableVector:
 		return self._length
 
 	def __getitem__(self, index):
-		if index >= self._length: raise IndexError()
-		return self.tree[index]
+		if isinstance(index, slice):
+			return self.slice(index)
+		return self.get(index)
 

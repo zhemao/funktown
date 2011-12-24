@@ -25,6 +25,7 @@ def vectortest():
 	assert list(v2) == [0, 1, 2, 3]
 	v4 = v1 + v2
 	assert list(v4) == [0,1,2,0,1,2,3]
+	assert list(v4[0:4]) == [0,1,2,0]
 
 def dicttest():
 	d1 = funcds.ImmutableDict(hello="world")

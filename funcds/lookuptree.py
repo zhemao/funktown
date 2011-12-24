@@ -15,7 +15,6 @@ class LookupTree:
 			for i,val in enumerate(initvalues):
 				self.insert(i, val)
 
-
 	def get(self, index):
 		try:
 			return self[index]
