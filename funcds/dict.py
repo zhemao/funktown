@@ -22,9 +22,9 @@ class ImmutableDict:
 		copydict._length = self._length + 1
 		return copydict
 
-	def extend(self, otherdict):
+	def extend(self, other):
 		copydict = ImmutableDict()
-		vallist = [(hashfunc(key), (key, value)) for (key,value) in otherdict]
+		vallist = [(hashfunc(key), (key, other[key])) for key in other]
 		copydict.tree = self.tree.multi_assoc(vallist)
 		copydict._length = iter_length(copydict.tree)
 		return copydict
@@ -49,7 +49,17 @@ class ImmutableDict:
 		except KeyError: raise KeyError(key)
 
 	def __iter__(self):
-		return self.tree.__iter__()
+		for key,val in self.tree:
+			yield key
+	
+	def keys(self):
+		return [key for (key,val) in self.tree]
+
+	def values(self):
+		return [val for (key,val) in self.tree]
+
+	def items(self):
+		return [item for item in self.tree]
 
 def iter_length(iterable):
 	try:
