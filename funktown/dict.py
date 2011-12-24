@@ -15,7 +15,7 @@ class ImmutableDict:
 		copydict._length = self._length + 1
 		return copydict
 
-	def extend(self, other):
+	def update(self, other):
 		copydict = ImmutableDict()
 		vallist = [(hash(key), (key, other[key])) for key in other]
 		copydict.tree = self.tree.multi_assoc(vallist)
