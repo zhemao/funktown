@@ -4,6 +4,20 @@ This library implements an efficient ImmutableDict and ImmutableVector class
 inspired by the implementation of Vectors and Maps in the Clojure programming
 language.
 
+## Installation
+
+If you are installing from the cloned repository, just use
+
+	python setup.py install
+
+Package is also available from PyPI. In that case, use
+
+	pip install funktown
+
+ArchLinux users can install from the AUR
+
+	yaourt -S python2-funktown
+
 ## API
 
 ### ImmutableVector
