@@ -1,4 +1,4 @@
-# FuncDS: Functional Data Structures for Python
+# FunkTown: Functional Data Structures for Python
 
 This library implements an efficient ImmutableDict and ImmutableVector class 
 inspired by the implementation of Vectors and Maps in the Clojure programming
@@ -8,8 +8,8 @@ language.
 
 ### ImmutableVector
 
-The constructor takes a list of initial values. Supports item access in the
-same way as builtin python lists
+The constructor takes a list of initial values. It supports standard list
+operations such as item access, slicing, and concatenation.
 
 assoc(index, value)
 
@@ -29,17 +29,19 @@ Returns a new vector with the final item removed.
 The constructor can take a dict and/or keyword arguments. Item access follows
 the same behavior as builtin python dicts.
 
-assoc(key, value)
+#### assoc(key, value)
 
 Returns a new immutable dict with the value associated with the given key.
 
-get(key)
+#### get(key)
 
 Like in Python's builtin dict, this will act like item access, except 
 returning None instead of raising a KeyError.
 
-remove(key)
+#### remove(key)
 
 Return a new ImmutableDict with the item at that key removed
 
+#### update(otherdict)
 
+Return a new immutable dict updated with the records in otherdict.
