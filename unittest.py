@@ -23,7 +23,7 @@ def vectortest():
 	assert len(v3) == 2
 	assert v2[3] == 3
 	assert list(v2) == [0, 1, 2, 3]
-	v4 = v1.concat(v2)
+	v4 = v1 + v2
 	assert list(v4) == [0,1,2,0,1,2,3]
 
 def dicttest():

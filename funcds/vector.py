@@ -34,6 +34,9 @@ class ImmutableVector:
 	def conj(self, value):
 		return self.assoc(self._length, value)
 
+	def __add__(self, other):
+		return self.concat(other)
+
 	def __iter__(self):
 		for i in range(0, self._length):
 			yield self[i]
