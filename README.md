@@ -25,16 +25,16 @@ ArchLinux users can install from the AUR
 The constructor takes a list of initial values. It supports standard list
 operations such as item access, slicing, and concatenation.
 
-assoc(index, value)
+#### assoc(index, value)
 
 Returns a new vector with the value assigned to the given index
 
-conj(value)
+#### conj(value)
 
 Returns a new vector with the value appended to the back. Roughly equivalent 
 to vec.assoc(len(vec), value)
 
-pop()
+#### pop()
 
 Returns a new vector with the final item removed.
 
