@@ -58,6 +58,12 @@ class ImmutableDict:
 	def items(self):
 		return [item for item in self.tree]
 
+	def __str__(self):
+		return str(dict(self))
+
+	def __repr__(self):
+		return 'ImmutableDict('+str(self)+')'
+
 def iter_length(iterable):
 	try:
 		return len(iterable)

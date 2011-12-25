@@ -59,3 +59,9 @@ class ImmutableVector:
 			return self.slice(index)
 		return self.get(index)
 
+	def __str__(self):
+		return str(list(self))
+
+	def __repr__(self):
+		return 'ImmutableVector('+str(self)+')'
+
