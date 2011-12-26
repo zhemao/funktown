@@ -1,7 +1,7 @@
 from .lookuptree import LookupTree 
 from itertools import islice
 
-class ImmutableVector:
+class ImmutableVector(object):
 	def __init__(self, initvalues=None):
 		if not initvalues: initvalues = []
 		self.tree = LookupTree(initvalues)

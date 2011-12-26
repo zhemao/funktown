@@ -1,6 +1,6 @@
 from .lookuptree import LookupTree
 
-class ImmutableDict:
+class ImmutableDict(object):
 
 	def __init__(self, initdict=None, **kwargs):
 		if initdict == None: initdict = {}

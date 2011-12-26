@@ -1,10 +1,10 @@
-class LookupTreeNode:
+class LookupTreeNode(object):
 	def __init__(self, index=-1, value=None):
 		self.children = [None]*32
 		self.index = index
 		self.value = value
 
-class LookupTree:
+class LookupTree(object):
 	def __init__(self, initvalues=None):
 		self.root = LookupTreeNode()
 		if initvalues is None: pass
