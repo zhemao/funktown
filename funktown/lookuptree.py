@@ -25,7 +25,7 @@ class LookupTree:
 		node = self.root
 		level = 0
 		while node and node.index == -1:
-			i = (index >> level * 5) & 31
+			i = _getbits(index, level)
 			node = node.children[i]
 			level+=1
 		if node is None:
@@ -61,7 +61,7 @@ class LookupTree:
 		level = 0
 		node = self.root
 		while True:
-			ind = (newnode.index >> level * 5) & 31 
+			ind = _getbits(newnode.index, level)
 			level+=1
 			child = node.children[ind]
 			if child is None or child.index == newnode.index:
@@ -71,8 +71,8 @@ class LookupTree:
 				node = node.children[ind]
 			else:
 				branch = LookupTreeNode()
-				nind = (newnode.index >> level * 5) & 31
-				cind = (child.index >> level * 5) & 31
+				nind = _getbits(newnode.index, level)
+				cind = _getbits(child.index, level)
 				node.children[ind] = branch
 				branch.children[nind] = newnode
 				branch.children[cind] = child
@@ -82,7 +82,7 @@ class LookupTree:
 		return iter_node(self.root)
 
 def _assoc_down(node, newnode, level):
-	ind = (newnode.index >> level * 5) & 31
+	ind = _getbits(newnode.index, level)
 	copynode = LookupTreeNode()
 	for i,child in enumerate(node.children):
 		if i != ind:
@@ -96,14 +96,14 @@ def _assoc_down(node, newnode, level):
 		branch = LookupTreeNode()
 		copynode.children[ind] = branch
 		level+=1
-		cind = (child.index >> level * 5) & 31
-		nind = (newnode.index >> level * 5) & 31
+		cind = _getbits(child.index, level)
+		nind = _getbits(newnode.index, level)
 		branch.children[cind] = child
 		branch.children[nind] = newnode
 	return copynode
 
 def _multi_assoc_down(node, nndict, level):
-	indices = set([(index >> level * 5) & 31 for index in nndict])
+	indices = set([_getbits(index, level) for index in nndict])
 	copynode = LookupTreeNode()
 	for i,child in enumerate(node.children):
 		if i not in indices:
@@ -132,7 +132,7 @@ def _multi_assoc_down(node, nndict, level):
 	return copynode
 
 def _remove_down(node, index, level):
-	ind = (index >> level * 5) & 31
+	ind = _getbits(index, level)
 	
 	if node.children[ind] is None:
 		return node
@@ -153,6 +153,9 @@ def _remove_down(node, index, level):
 		return node
 
 	return copynode
+
+def _getbits(num, level):
+	return (num >> 5 * level) & 31
 
 def iter_node(node):
 	if node.index == -1:
