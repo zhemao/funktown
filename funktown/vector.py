@@ -2,12 +2,18 @@ from .lookuptree import LookupTree
 from itertools import islice
 
 class ImmutableVector(object):
+	'''An immutable vector class. Access, appending, and removal are 
+	guaranteed to have O(log(n)) performance. The constructor takes the same
+	arguments as the builtin list class.''' 
+
 	def __init__(self, initvalues=None):
-		if not initvalues: initvalues = []
+		if initvalues is None: initvalues = []
 		self.tree = LookupTree(initvalues)
 		self._length = len(initvalues)
 
 	def assoc(self, index, value):
+		'''Return a new vector with value associated at index. The implicit
+		parameter is not modified.'''
 		newvec = ImmutableVector()
 		newvec.tree = self.tree.assoc(index, value)
 		if index >= self._length:
@@ -17,6 +23,8 @@ class ImmutableVector(object):
 		return newvec
 
 	def concat(self, tailvec):
+		'''Returns the result of concatenating tailvec to the implicit 
+		parameter'''
 		newvec = ImmutableVector()
 		vallist = [(i + self._length, tailvec[i]) \
 				for i in range(0, tailvec._length)]
@@ -25,6 +33,7 @@ class ImmutableVector(object):
 		return newvec
 
 	def pop(self):
+		'''Return a new ImmutableVector with the last item removed.'''
 		if self._length == 0:
 			raise IndexError()
 		newvec = ImmutableVector()
@@ -33,14 +42,16 @@ class ImmutableVector(object):
 		return newvec
 
 	def conj(self, value):
+		'''Return a new ImmutableVector with value appended to the 
+		end of the vector'''
 		return self.assoc(self._length, value)
 
-	def get(self, index):
+	def _get(self, index):
 		if index >= self._length: 
 			raise IndexError
 		return self.tree[index]
 
-	def slice(self, slc):
+	def _slice(self, slc):
 		lst = [val for val in islice(self, slc.start, slc.stop, slc.step)]
 		return ImmutableVector(lst)
 
@@ -56,8 +67,8 @@ class ImmutableVector(object):
 
 	def __getitem__(self, index):
 		if isinstance(index, slice):
-			return self.slice(index)
-		return self.get(index)
+			return self._slice(index)
+		return self._get(index)
 
 	def __str__(self):
 		return str(list(self))
