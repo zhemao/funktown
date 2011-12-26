@@ -6,7 +6,7 @@ def treetest():
 	t1 = funktown.LookupTree({0:0, 32:32, 4:4})
 	assert t1.get(0) == 0
 	t2 = t1.assoc(36, 36)
-	assert t1.get(36) == None
+	assert t1.get(36) is None
 	assert t2.get(36) == 36
 	t3 = t2.assoc(36, 35)
 	assert t3.get(36) == 35
@@ -33,8 +33,8 @@ def dicttest():
 	d3 = d2.remove("hello")
 	assert d1["hello"] == "world"
 	assert d2["goodbye"] == "moon"
-	assert d1.get("goodbye") == None
-	assert d3.get("hello") == None
+	assert d1.get("goodbye") is None
+	assert d3.get("hello") is None
 	assert dict(d2) == {"hello":"world", "goodbye":"moon"}
 	d4 = d2.update(funktown.ImmutableDict({"a":"b", "c":"d"}))
 	assert len(d4) == 4

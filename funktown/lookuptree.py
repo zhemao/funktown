@@ -7,7 +7,7 @@ class LookupTreeNode:
 class LookupTree:
 	def __init__(self, initvalues=None):
 		self.root = LookupTreeNode()
-		if initvalues == None: pass
+		if initvalues is None: pass
 		elif isinstance(initvalues, dict):
 			for key,val in initvalues.items():
 				self.insert(key, val)
@@ -28,7 +28,7 @@ class LookupTree:
 			i = (index >> level * 5) & 31
 			node = node.children[i]
 			level+=1
-		if node == None:
+		if node is None:
 			raise KeyError(index)
 		if node.index == index:
 			return node.value
@@ -64,7 +64,7 @@ class LookupTree:
 			ind = (newnode.index >> level * 5) & 31 
 			level+=1
 			child = node.children[ind]
-			if child == None or child.index == newnode.index:
+			if child is None or child.index == newnode.index:
 				node.children[ind] = newnode
 				break
 			elif child.index == -1:
@@ -88,7 +88,7 @@ def _assoc_down(node, newnode, level):
 		if i != ind:
 			copynode.children[i] = child
 	child = node.children[ind]
-	if child == None or child.index == newnode.index:
+	if child is None or child.index == newnode.index:
 		copynode.children[ind] = newnode
 	elif child.index == -1:
 		copynode.children[ind] = _assoc_down(child, newnode, level+1)
@@ -113,7 +113,7 @@ def _multi_assoc_down(node, nndict, level):
 		subnndict = dict([(i,nndict[i]) for i in nndict \
 						if ind == (i >> level * 5) & 31])
 		child = node.children[ind]
-		if child == None or child.index in subnndict:
+		if child is None or child.index in subnndict:
 			if len(subnndict) == 1:
 				values = [val for val in subnndict.values()]
 				copynode.children[ind] = values[0]
@@ -134,7 +134,7 @@ def _multi_assoc_down(node, nndict, level):
 def _remove_down(node, index, level):
 	ind = (index >> level * 5) & 31
 	
-	if node.children[ind] == None:
+	if node.children[ind] is None:
 		return node
 		
 	copynode = LookupTreeNode()
@@ -157,7 +157,7 @@ def _remove_down(node, index, level):
 def iter_node(node):
 	if node.index == -1:
 		for child in node.children:
-			if child == None: continue
+			if child is None: continue
 			if child.index == -1:
 				for value in iter_node(child):
 					yield value
