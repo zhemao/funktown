@@ -5,6 +5,9 @@ class LookupTreeNode(object):
 		self.value = value
 
 class LookupTree(object):
+	'''A lookup tree with a branching factor of 32. The constructor
+	takes an argument initvalues, which can either be a list of values
+	or a dictionary mapping indices to values.'''
 	def __init__(self, initvalues=None):
 		self.root = LookupTreeNode()
 		if initvalues is None: pass
@@ -16,6 +19,7 @@ class LookupTree(object):
 				self.insert(i, val)
 
 	def get(self, index):
+		'''Like tree[index], but returns None if index not found'''
 		try:
 			return self[index]
 		except KeyError: return None
@@ -35,12 +39,16 @@ class LookupTree(object):
 		raise KeyError(index)
 
 	def assoc(self, index, value):
+		'''Return a new tree with value associated at index.'''
 		newnode = LookupTreeNode(index, value)
 		newtree = LookupTree()
 		newtree.root = _assoc_down(self.root, newnode, 0)
 		return newtree
 
 	def multi_assoc(self, values):
+		'''Return a new tree with multiple values associated. The parameter
+		values can either be a dictionary mapping indices to values, or a list
+		of (index,value) tuples'''
 		if isinstance(values, dict):
 			nndict = dict([(i, LookupTreeNode(i, values[i])) for i in values])
 		else:
@@ -50,6 +58,7 @@ class LookupTree(object):
 		return newtree
 
 	def remove(self, index):
+		'''Return new tree with index removed.'''
 		newtree = LookupTree()
 		newtree.root = _remove_down(self.root, index, 0)
 		return newtree
