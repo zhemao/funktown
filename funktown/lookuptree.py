@@ -10,7 +10,7 @@ class LookupTreeNode(object):
                 if child is None:
                     continue
                 if child.index == -1:
-                    for value in iter_self(child):
+                    for value in child:
                         yield value
                 else: yield child.value
 
