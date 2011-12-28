@@ -1,8 +1,19 @@
 class LookupTreeNode(object):
     def __init__(self, index=-1, value=None):
-        self.children = [None]*32
+        self.children = [None] * 32
         self.index = index
         self.value = value
+
+    def __iter__(self):
+        if node.index == -1:
+            for child in node.children:
+                if child is None:
+                    continue
+                if child.index == -1:
+                    for value in iter_node(child):
+                        yield value
+                else: yield child.value
+
 
 class LookupTree(object):
     '''A lookup tree with a branching factor of 32. The constructor
@@ -33,12 +44,12 @@ class LookupTree(object):
         while node and node.index == -1:
             i = _getbits(index, level)
             node = node.children[i]
-            level+=1
-        if node is None:
-            raise KeyError(index)
-        if node.index == index:
+            level += 1
+
+        if node is not None and node.index == index:
             return node.value
-        raise KeyError(index)
+        else:
+            raise KeyError(index)
 
     def assoc(self, index, value):
         '''Return a new tree with value associated at index.'''
@@ -73,13 +84,13 @@ class LookupTree(object):
         node = self.root
         while True:
             ind = _getbits(newnode.index, level)
-            level+=1
+            level += 1
             child = node.children[ind]
             if child is None or child.index == newnode.index:
                 node.children[ind] = newnode
                 break
             elif child.index == -1:
-                node = node.children[ind]
+                node = child
             else:
                 branch = LookupTreeNode()
                 nind = _getbits(newnode.index, level)
@@ -90,7 +101,8 @@ class LookupTree(object):
                 break
 
     def __iter__(self):
-        return iter_node(self.root)
+        return iter(self.root)
+
 
 def _assoc_down(node, newnode, level):
     ind = _getbits(newnode.index, level)
@@ -167,13 +179,3 @@ def _remove_down(node, index, level):
 
 def _getbits(num, level):
     return (num >> 5 * level) & 31
-
-def iter_node(node):
-    if node.index == -1:
-        for child in node.children:
-            if child is None:
-                continue
-            if child.index == -1:
-                for value in iter_node(child):
-                    yield value
-            else: yield child.value
