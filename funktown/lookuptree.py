@@ -134,7 +134,7 @@ def _multi_assoc_down(node, nndict, level):
                     _multi_assoc_down(branch, subnndict, level+1)
         elif child.index == -1:
             copynode.children[ind] = \
-                _multi_assoc_down(node, subnndict, level+1)
+n                _multi_assoc_down(node, subnndict, level+1)
         else:
             branch = LookupTreeNode()
             copynode.children[ind] = \
