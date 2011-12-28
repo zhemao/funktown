@@ -5,12 +5,12 @@ class LookupTreeNode(object):
         self.value = value
 
     def __iter__(self):
-        if node.index == -1:
-            for child in node.children:
+        if self.index == -1:
+            for child in self.children:
                 if child is None:
                     continue
                 if child.index == -1:
-                    for value in iter_node(child):
+                    for value in iter_self(child):
                         yield value
                 else: yield child.value
 
@@ -146,7 +146,7 @@ def _multi_assoc_down(node, nndict, level):
                     _multi_assoc_down(branch, subnndict, level+1)
         elif child.index == -1:
             copynode.children[ind] = \
-n                _multi_assoc_down(node, subnndict, level+1)
+                _multi_assoc_down(node, subnndict, level+1)
         else:
             branch = LookupTreeNode()
             copynode.children[ind] = \

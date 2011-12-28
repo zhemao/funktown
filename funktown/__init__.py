@@ -1,2 +1,2 @@
-from .vector import ImmutableVector
 from .dictionary import ImmutableDict
+from .vector import ImmutableVector

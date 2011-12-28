@@ -3,7 +3,7 @@
 import funktown
 
 def treetest():
-    t1 = funktown.LookupTree({0:0, 32:32, 4:4})
+    t1 = funktown.lookuptree.LookupTree({0:0, 32:32, 4:4})
     assert t1.get(0) == 0
     t2 = t1.assoc(36, 36)
     assert t1.get(36) is None
@@ -47,5 +47,3 @@ if __name__ == "__main__":
     treetest()
     vectortest()
     dicttest()
-
-
