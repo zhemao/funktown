@@ -22,10 +22,12 @@ def vectortest():
     assert len(v2) == 4
     assert len(v3) == 2
     assert v2[3] == 3
-    assert list(v2) == [0, 1, 2, 3]
+    assert v2 == [0, 1, 2, 3]
     v4 = v1 + v2
-    assert list(v4) == [0,1,2,0,1,2,3]
-    assert list(v4[0:4]) == [0,1,2,0]
+    assert v4 == [0,1,2,0,1,2,3]
+    assert v4[0:4] == [0,1,2,0]
+
+    assert 2 in v4
 
 def dicttest():
     d1 = funktown.ImmutableDict(hello="world")
@@ -35,13 +37,14 @@ def dicttest():
     assert d2["goodbye"] == "moon"
     assert d1.get("goodbye") is None
     assert d3.get("hello") is None
-    assert dict(d2) == {"hello":"world", "goodbye":"moon"}
+    assert d2 == {"hello":"world", "goodbye":"moon"}
     d4 = d2.update(funktown.ImmutableDict({"a":"b", "c":"d"}))
     assert len(d4) == 4
     assert d4['a'] == 'b'
     assert d4['c'] == 'd'
     d5 = d1.update(hola="mundo")
     assert d5['hola'] == 'mundo'
+    assert 'hola' in d5
 
 if __name__ == "__main__":
     treetest()

@@ -77,6 +77,22 @@ class ImmutableDict(object):
     def __repr__(self):
         return 'ImmutableDict('+str(self)+')'
 
+    def __contains__(self, key):
+        try:
+            self.tree[hash(key)]
+            return True
+        except KeyError: return False
+
+    def __eq__(self, other):
+        if len(self) != len(other):
+            return False
+
+        for key in self:
+            if self[key] != other[key]:
+                return False
+
+        return True
+
 def iter_length(iterable):
     try:
         return len(iterable)

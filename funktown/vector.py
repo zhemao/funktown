@@ -76,3 +76,19 @@ class ImmutableVector(object):
     def __repr__(self):
         return 'ImmutableVector('+str(self)+')'
 
+    def __contains__(self, item):
+        for thing in self:
+            if thing == item:
+                return True
+        return False
+
+    def __eq__(self, other):
+        if len(self) != len(other):
+            return False
+
+        for i in range(len(self)):
+            if self[i] != other[i]:
+                return False
+
+        return True
+
