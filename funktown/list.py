@@ -1,7 +1,7 @@
 class ImmutableList(object):
     
     def __init__(self, *args):
-        if len(args) == 1 and isinstance(args[0], list):
+        if len(args) == 1 and isinstance(args[0], (list, tuple)):
             self._head = args[0][0]
             if len(args[0]) > 1:
                 self._tail = ImmutableList(args[0][1:])
