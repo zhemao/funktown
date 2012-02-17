@@ -26,7 +26,7 @@ class ImmutableList(object):
         return self._tail._head
 
     def __contains__(self, itm):
-        if self.head == itm:
+        if self._head == itm:
             return True
         return itm in self._tail
 
@@ -47,4 +47,10 @@ class ImmutableList(object):
             node = node._tail
         
         return True
+
+    def __len__(self):
+        if self._tail is None:
+            return 1
+        else:
+            return 1 + len(self._tail)
         

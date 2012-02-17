@@ -49,6 +49,8 @@ def dicttest():
 def listtest():
     l1 = funktown.ImmutableList([2, 3])
     assert l1.conj(1) == [1, 2, 3]
+    assert len(l1) == 2
+    assert l1.conj(1) == funktown.ImmutableList(1, l1)
 
 
 if __name__ == "__main__":
