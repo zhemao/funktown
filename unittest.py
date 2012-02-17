@@ -46,7 +46,13 @@ def dicttest():
     assert d5['hola'] == 'mundo'
     assert 'hola' in d5
 
+def listtest():
+    l1 = funktown.ImmutableList([2, 3])
+    assert l1.conj(1) == [1, 2, 3]
+
+
 if __name__ == "__main__":
     treetest()
     vectortest()
     dicttest()
+    listtest()
