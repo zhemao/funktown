@@ -21,7 +21,7 @@ class ImmutableList(object):
         return self._tail
 
     def second(self):
-        if self._tail == None:
+        if self._tail is None:
             return None
         return self._tail._head
 
@@ -32,11 +32,14 @@ class ImmutableList(object):
 
     def __iter__(self):
         node = self
-        while node != None:
+        while node is not None:
             yield node._head
             node = node._tail
 
     def __eq__(self, other):
+        if other is None:
+            return False
+
         node = self
         
         for itm in other:
@@ -53,4 +56,10 @@ class ImmutableList(object):
             return 1
         else:
             return 1 + len(self._tail)
+
+    def __str__(self):
+        return '[' + ', '.join([str(x) for x in self]) + ']'
+
+    def __repr__(self):
+        return 'ImmutableList(' + str(self) + ')'
         
