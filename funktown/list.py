@@ -51,6 +51,9 @@ class ImmutableList(object):
         if other is None:
             return False
 
+        if not hasattr(other, '__iter__'):
+            return False
+
         node = self
         
         for itm in other:
