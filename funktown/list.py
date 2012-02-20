@@ -39,6 +39,9 @@ class ImmutableList(object):
             return None
         return self._tail._head
 
+    def empty(self):
+        return self._empty
+
     def __contains__(self, itm):
         if self._empty:
             return False
