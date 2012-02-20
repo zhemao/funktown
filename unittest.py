@@ -57,6 +57,7 @@ def listtest():
     assert l1.conj(1) == ImmutableList(1, l1)
     l3 = ImmutableList()
     assert len(l3) == 0
+    assert l3 == ImmutableList([])
 
 def typetest():
     l = ImmutableList()

@@ -6,12 +6,17 @@ class ImmutableList(object):
             self._head = None
             self._tail = None
 
-        if len(args) == 1 and isinstance(args[0], (list, tuple)):
-            self._head = args[0][0]
-            if len(args[0]) > 1:
-                self._tail = ImmutableList(args[0][1:])
-            else: self._tail = ImmutableList()
-            self._empty = False
+        elif len(args) == 1 and isinstance(args[0], (list, tuple)):
+            if len(args[0]) == 0:
+                self._empty = True
+                self._head = None
+                self._tail = None
+            else:
+                self._head = args[0][0]
+                if len(args[0]) > 1:
+                    self._tail = ImmutableList(args[0][1:])
+                else: self._tail = ImmutableList()
+                self._empty = False
 
         elif len(args) == 2 and isinstance(args[1], ImmutableList):
             self._head = args[0]
