@@ -23,12 +23,12 @@ class ImmutableDict(object):
         for i, item in enumerate(lst):
             k,v = item
             if key == k:
-                lst[i] = (key, value)
+                lst[i] = (key, val)
                 found = True
                 break
         
         if not found:
-            lst.append((key, value))
+            lst.append((key, val))
         
     def assoc(self, key, value):
         '''Returns a new ImmutableDict instance with value associated with key.

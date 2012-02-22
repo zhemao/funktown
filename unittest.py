@@ -59,6 +59,15 @@ def listtest():
     assert len(l3) == 0
     assert l3 == ImmutableList([])
 
+def collisiontest():
+    d1 = ImmutableDict().assoc(6272018864, int).assoc('1', str)
+    d2 = ImmutableDict({6272018864: int, '1': str})
+
+    print d1
+    print d2
+
+    #assert d1 == d2 == {1977051568: int, '1': str}
+
 def typetest():
     l = ImmutableList()
     v = ImmutableVector()
@@ -78,4 +87,6 @@ if __name__ == "__main__":
     dicttest()
     listtest()
     typetest()
+    collisiontest()
+
     print("All tests passed")
