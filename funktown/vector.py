@@ -83,6 +83,12 @@ class ImmutableVector(object):
         return False
 
     def __eq__(self, other):
+        if other is None:
+            return False
+
+        if not hasattr(other, '__getitem__'):
+            return False
+
         if len(self) != len(other):
             return False
 
@@ -91,4 +97,7 @@ class ImmutableVector(object):
                 return False
 
         return True
+
+    def __ne__(self, other):
+        return not self.__eq__(other)
 
