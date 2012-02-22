@@ -9,8 +9,12 @@ class ImmutableDict(object):
     def __init__(self, initdict=None, **kwargs):
         if initdict is None: initdict = {}
         initdict.update(kwargs)
-        hashlist = [(hash(key), [(key, initdict[key])]) for key in initdict]
-        self.tree = LookupTree(dict(hashlist))
+        valdict = defaultdict(list)
+        
+        for key in initdict:
+            valdict[hash(key)].append((key, initdict[key]))
+
+        self.tree = LookupTree(valdict)
         self._length = len(initdict)
 
     def _add_to_list(self, lst, key, val):
