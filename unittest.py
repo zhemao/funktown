@@ -49,6 +49,7 @@ def dicttest():
     assert d5['hola'] == 'mundo'
     assert 'hola' in d5
     assert ImmutableDict() == {}
+    assert ImmutableDict().get(1, 2) == 2
 
 def listtest():
     l1 = ImmutableList([2, 3])
