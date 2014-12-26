@@ -41,11 +41,11 @@ class ImmutableDict(object):
         copydict._length = self._length - 1
         return copydict
 
-    def get(self, key):
+    def get(self, key, default=None):
         '''Same as get method in builtin dict.'''
         try:
             return self[key]
-        except KeyError: return None
+        except KeyError: return default
 
     def __len__(self):
         return self._length
