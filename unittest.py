@@ -5,6 +5,8 @@ import funktown
 from funktown.lookuptree import LookupTree
 from funktown import ImmutableDict, ImmutableVector, ImmutableList
 
+import collections
+
 def treetest():
     t1 = LookupTree({0:0, 32:32, 4:4})
     assert t1.get(0) == 0
@@ -51,6 +53,11 @@ def dicttest():
     assert ImmutableDict() == {}
     assert ImmutableDict().get(1, 2) == 2
 
+def dictismappingtest():
+    start = {'a': 1, 'b': 2, 'c': 3}
+    i_d = ImmutableDict(start)
+    assert isinstance(i_d, collections.Mapping)
+
 def listtest():
     l1 = ImmutableList([2, 3])
     assert l1.conj(1) == [1, 2, 3]
@@ -77,6 +84,7 @@ if __name__ == "__main__":
     treetest()
     vectortest()
     dicttest()
+    dictismappingtest()
     listtest()
     typetest()
     print("All tests passed")
