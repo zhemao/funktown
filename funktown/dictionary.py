@@ -2,18 +2,21 @@ import collections
 
 from .lookuptree import LookupTree
 
-import collections
-
 class ImmutableDict(collections.Mapping):
     '''An immutable dictionary class. Access, insertion, and removal
     are guaranteed to have O(log(n)) performance. Constructor takes same
     arguments as builtin dict'''
 
     def __init__(self, initdict=None, **kwargs):
-        if initdict is None: initdict = {}
+        if initdict is None:
+            initdict = {}
+        else:
+            # Don't want to overwrite what the caller sent
+            initdict = initdict.copy()
         initdict.update(kwargs)
         hashlist = [(hash(key), (key, initdict[key])) for key in initdict]
-        self.tree = LookupTree(dict(hashlist))
+        fixed_up = dict(hashlist)
+        self.tree = LookupTree(fixed_up)
         self._length = len(initdict)
 
     def assoc(self, key, value):

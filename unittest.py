@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+import uuid
+
 import funktown
 
 from funktown.lookuptree import LookupTree
@@ -58,6 +60,82 @@ def dictismappingtest():
     i_d = ImmutableDict(start)
     assert isinstance(i_d, collections.Mapping)
 
+def dict_creation_test():
+    d1 = {"a": 1, "b": 2, "c": 3, 4: 'd'}
+    initial_length = len(d1)
+    i_d = ImmutableDict(d1, d=4)
+    assert len(d1) == initial_length
+    assert len(i_d) == initial_length + 1
+
+def dict_int_test():
+    d = {n:n for n in range(16)}
+    d1 = ImmutableDict(d)
+    assert (len(d1.keys()) == 16)
+
+def ugly_tree_creation_test():
+    tree = LookupTree()
+    error_values = []
+    for i in range(10000):
+        tree.insert(hash(i), (i, i))
+        n = 0
+        try:
+            for k, v in tree:
+                n += 1
+            if n != i+1:
+                error_values.append(i)
+        except TypeError:
+            # this is failing the first time through the loop, because
+            # integers aren't iterable.
+            # I'm torn about what to think about this fact.
+            # Probably just means I don't understand the tree as well as I thought
+            print "Quit being able to iterate over tree on insert # %d" % i
+            raise
+    assert not error_values
+
+def brutal_creation_test():
+    """ Note that this is incredibly slow and painful.
+    You probably won't want to run it often """
+    errors = []
+    for i in range(10000):
+        print '@',
+        d = {n:n for n in range(i)}
+        i_d = ImmutableDict(d)
+        for j in range(i):
+            if j not in i_d:
+                msg = '@ length {}, index {} got lost'
+                errors.append(msg.format(i, j))
+        if not i % 80:
+            print '!'
+    assert not errors, str(errors)
+
+def simpler_dict_collision_test():
+    d = {n:n for n in range(10000)}
+    i_d = ImmutableDict(d)
+    failures = []
+    result_keys = i_d.keys()
+    for n in range(10000):
+        if n not in result_keys:
+            failures.append(n)
+    if failures:
+        print "Lost %d keys: %s" % (len(failures), failures)
+        assert False, str(failures)
+
+def dict_collision_test():
+    l = [str(uuid.uuid4()) for _ in range(10000)]
+    d = {l[n]: n for n in range(10000)}
+    i_d = ImmutableDict(d)
+    assert len(i_d.keys()) == len(d.keys())
+    failures = []
+    for k in l:
+        if str(k) not in i_d:
+            failures.append({k: d[k]})
+    if failures:
+        msg = 'UUID entries lost:'
+        for uid in failures:
+            msg += '{}\n'.format(uid)
+        msg += '\n(There are {} of them)'.format(len(failures))
+        assert False, msg
+
 def listtest():
     l1 = ImmutableList([2, 3])
     assert l1.conj(1) == [1, 2, 3]
@@ -72,7 +150,7 @@ def typetest():
     v = ImmutableVector()
     d = ImmutableDict()
 
-    assert l != None
+    assert l is not None
     assert v != 3
     assert d != 'a'
 
@@ -81,6 +159,15 @@ def typetest():
     assert d != l
 
 if __name__ == "__main__":
+    dict_collision_test()
+    simpler_dict_collision_test()
+    # This is simply too slow to run regularly/often
+    # (if at all)
+    # brutal_creation_test()
+    dict_int_test()
+    # TODO: Get this passing
+    # ugly_tree_creation_test()
+    dict_creation_test()
     treetest()
     vectortest()
     dicttest()

@@ -1,24 +1,43 @@
+import uuid
+
+# This isn't named well. It's really a flag that
+# tells us we're talking about a branch node rather
+# than a leaf.
+# Q: Is this really more efficient than just setting
+# a boolean?
+_root_index = uuid.uuid4()
+
+
 class LookupTreeNode(object):
-    def __init__(self, index=-1, value=None):
+    def __init__(self, index=_root_index, value=None):
         self.children = [None] * 32
         self.index = index
         self.value = value
 
     def __iter__(self):
-        if self.index == -1:
+        if self.index == _root_index:
             for child in self.children:
                 if child is None:
                     continue
-                if child.index == -1:
+                if child.index == _root_index:
                     for value in child:
                         yield value
                 else: yield child.value
+
+    def __repr__(self):
+        result = '{}: {}'.format(self.index, self.value)
+        return result
 
 
 class LookupTree(object):
     '''A lookup tree with a branching factor of 32. The constructor
     takes an argument initvalues, which can either be a list of values
-    or a dictionary mapping indices to values.'''
+    or a dictionary mapping indices to values.
+
+    This really needs to construct a balanced tree (the canonical example
+    is red-black).
+    Q: Is it doing so?
+    '''
     def __init__(self, initvalues=None):
         self.root = LookupTreeNode()
         if initvalues is None:
@@ -41,7 +60,7 @@ class LookupTree(object):
         '''Find the value of the node with the given index'''
         node = self.root
         level = 0
-        while node and node.index == -1:
+        while node and node.index == _root_index:
             i = _getbits(index, level)
             node = node.children[i]
             level += 1
@@ -87,18 +106,28 @@ class LookupTree(object):
             level += 1
             child = node.children[ind]
             if child is None or child.index == newnode.index:
+                if child:
+                    assert child.value == newnode.value
                 node.children[ind] = newnode
                 break
-            elif child.index == -1:
+            elif child.index == _root_index:
+                # This is a branch
                 node = child
             else:
                 branch = LookupTreeNode()
                 nind = _getbits(newnode.index, level)
                 cind = _getbits(child.index, level)
                 node.children[ind] = branch
-                branch.children[nind] = newnode
-                branch.children[cind] = child
-                break
+
+                # Life gets tricky when...
+                if nind == cind:
+                    branch.children[cind] = child
+                    # recurse
+                    node = branch
+                else:
+                    branch.children[nind] = newnode
+                    branch.children[cind] = child
+                    break
 
     def __iter__(self):
         return iter(self.root)
@@ -113,7 +142,7 @@ def _assoc_down(node, newnode, level):
     child = node.children[ind]
     if child is None or child.index == newnode.index:
         copynode.children[ind] = newnode
-    elif child.index == -1:
+    elif child.index == _root_index:
         copynode.children[ind] = _assoc_down(child, newnode, level+1)
     else:
         branch = LookupTreeNode()
@@ -144,7 +173,7 @@ def _multi_assoc_down(node, nndict, level):
                 branch = LookupTreeNode()
                 copynode.children[ind] = \
                     _multi_assoc_down(branch, subnndict, level+1)
-        elif child.index == -1:
+        elif child.index == _root_index:
             copynode.children[ind] = \
                 _multi_assoc_down(node, subnndict, level+1)
         else:
@@ -170,7 +199,7 @@ def _remove_down(node, index, level):
 
     if child.index == index:
         copynode.children[ind] = None
-    elif child.index == -1:
+    elif child.index == _root_index:
         copynode.children[ind] = _remove_down(child, index, level+1)
     else:
         return node
