@@ -1,3 +1,5 @@
+import collections
+
 from .lookuptree import LookupTree
 
 import collections
@@ -89,7 +91,7 @@ class ImmutableDict(collections.Mapping):
         if other is None:
             return False
 
-        if not hasattr(other, '__getitem__'):
+        if not isinstance(other, collections.Mapping):
             return False
 
         if len(self) != len(other):

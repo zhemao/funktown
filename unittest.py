@@ -77,7 +77,7 @@ def typetest():
     assert d != 'a'
 
     assert l == v
-    assert d == v
+    assert d != v
     assert d != l
 
 if __name__ == "__main__":
