@@ -1,6 +1,8 @@
 from .lookuptree import LookupTree
 
-class ImmutableDict(object):
+import collections
+
+class ImmutableDict(collections.Mapping):
     '''An immutable dictionary class. Access, insertion, and removal
     are guaranteed to have O(log(n)) performance. Constructor takes same
     arguments as builtin dict'''
